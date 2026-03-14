@@ -119,7 +119,7 @@ During development of CoconutGuard the focus areas included:
 - **Resilient Mocking**: Developing deep service-layer fallbacks that detect initialization failures and pivot to Demo Mode automatically.
 
 > [!IMPORTANT]
-> **Read the full [Engineering Lessons & Decisions Doc](docs/engineering_decisions.md) for a technical deep-dive.**
+> **Read the full [Engineering Lessons](docs/engineering_decisions.md) for a technical deep-dive.**
 
 ---
 
