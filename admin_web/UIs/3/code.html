@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coconut Crushers Ops - Scheduling</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e5c46",
+                        "primary-hover": "#2a7a5e",
+                        "accent": "#E6B87B",
+                        "background-light": "#f9fbf9",
+                        "background-dark": "#16221e",
+                        "surface-dark": "#1c2b26",
+                        "surface-darker": "#111a17",
+                        "border-dark": "#2b4039",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark tactical feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111a17; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b4039; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e5c46; 
+        }
+        
+        .glass-panel {
+            background: rgba(28, 43, 38, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .map-overlay-pattern {
+            background-image: radial-gradient(#1e5c46 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="shrink-0 flex items-center justify-between whitespace-nowrap border-b border-border-dark bg-surface-darker px-6 py-3 z-20">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">forest</span>
+</div>
+<h2 class="text-white text-lg font-bold tracking-tight">Coconut Crushers Ops</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-400 hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium border-b-2 border-primary py-1" href="#">Schedule</a>
+<a class="text-slate-400 hover:text-white text-sm font-medium transition-colors" href="#">Teams</a>
+<a class="text-slate-400 hover:text-white text-sm font-medium transition-colors" href="#">Reports</a>
+</nav>
+<div class="h-6 w-px bg-border-dark mx-2"></div>
+<div class="flex items-center gap-3">
+<span class="text-xs text-slate-400 text-right hidden sm:block">
+                    Coordination Unit<br/>Kurunegala HQ
+                </span>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-border-dark" data-alt="Profile picture of the operations coordinator" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAdpbAHHttiKWMz7RGrhOsotwDq5lE-ITaeitdg8H6XtGGb-VPEl0W-1__lPXOYPpNMdSt9GJo2gur15UeyFKqhLAa-rTeeRigC3OA6gQjB04gNMqj8rHvMldnhkeVWBAkkl1VxZmfxLv5X79-db2OcpJMK4Q4SjaDyWO9vzkQ2fs0TZpOG0-NydayM54cFoGp-2uKPKy8BCobFNRpwTWFkn18u5RcCQZVl8k6-7JEd9rgD_XW4JlwxQsDD7LE8OING3CYjc_iupA");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 flex overflow-hidden relative">
+<!-- Sidebar: Resource Panel -->
+<aside class="w-80 shrink-0 flex flex-col border-r border-border-dark bg-surface-dark overflow-hidden z-10 transition-all duration-300 ease-in-out absolute md:relative h-full -translate-x-full md:translate-x-0">
+<div class="p-5 border-b border-border-dark flex justify-between items-center bg-surface-darker/50">
+<div>
+<h1 class="text-white text-lg font-bold">Resources</h1>
+<p class="text-slate-400 text-xs mt-1">Drag to assign units</p>
+</div>
+<button class="text-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+</div>
+<div class="p-4 flex flex-col gap-4 overflow-y-auto flex-1">
+<!-- Filter Input -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-500 group-focus-within:text-primary text-xl">search</span>
+<input class="w-full bg-surface-darker border border-border-dark rounded-lg py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary transition-all" placeholder="Search teams..." type="text"/>
+</div>
+<!-- Teams List -->
+<div class="flex flex-col gap-3">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Available Units</h3>
+<!-- Draggable Item 1 -->
+<div class="group flex flex-col bg-surface-darker border border-border-dark hover:border-primary rounded-xl p-3 cursor-grab active:cursor-grabbing transition-all hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-500 text-lg">drag_indicator</span>
+</div>
+<div class="flex items-center gap-3 mb-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-border-dark" data-alt="Team Alpha logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYGcf9LmZchrjsAy5Z75JlxsDTX5jhD4N_Iy2na0FmyfQBogW8xmcSvKNkB-OzP2y2gahXWNe-Nb0Wlxn8tPwTC4VXUpzSWo0Q6OaJtqiYeF9ijVNKE3m5hbu7WVFTaJ7Px2PtBbvFkWQGZ5IRti19T476geqqDwRmPEmO_pM6V5wpHpaiEqI2ALKaMJbrcGuKcTQHJxw1rFvfBAxo4PqNM1a7NqRB2TC9jzGkzZSwc2EZWpODoK0mG4cdrTnrhGuzt61PEyepUA");'></div>
+<div>
+<p class="text-white font-bold leading-none">Team Alpha</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-accent text-[10px] uppercase font-bold tracking-wider border border-accent/20 bg-accent/10 px-1.5 rounded">Expert</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-white/5 pt-2 mt-1">
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">near_me</span>
+<span class="text-xs">15km away</span>
+</div>
+<div class="flex text-accent text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star_half</span>
+</div>
+</div>
+</div>
+<!-- Draggable Item 2 -->
+<div class="group flex flex-col bg-surface-darker border border-border-dark hover:border-primary rounded-xl p-3 cursor-grab active:cursor-grabbing transition-all hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden">
+<div class="flex items-center gap-3 mb-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-border-dark" data-alt="Team Beta logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDd1Uu1yEuWEE1xCfWhluMK_ZTeeii9K4fJFIYZjeZLq1fFw40YsVaKkbBwe5Q_OCKX8Exb-0IN_0_tunwx5iPk16wuwMP3Tro3EQF9WzESM-a9UuM2YRxezEsIlILSUzfbto5qvVi85ccHMnLIm1tOMZhi8qQKER3HZfb7vV1kM3FrIo-9tOTJ3xBL0xGSTXfaLwYSijepMAksECH7A1Rx0D_rzjJUcdBLQKb_uIn-syl7Ijam-FAU33GD8ZWxn8G_Q1z2-yOFLA");'></div>
+<div>
+<p class="text-white font-bold leading-none">Team Beta</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-slate-300 text-[10px] uppercase font-bold tracking-wider border border-slate-600 bg-slate-800 px-1.5 rounded">Transport</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-white/5 pt-2 mt-1">
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">near_me</span>
+<span class="text-xs">8km away</span>
+</div>
+<div class="flex text-accent text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+</div>
+</div>
+<!-- Draggable Item 3 -->
+<div class="group flex flex-col bg-surface-darker border border-border-dark hover:border-primary rounded-xl p-3 cursor-grab active:cursor-grabbing transition-all hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden">
+<div class="flex items-center gap-3 mb-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-border-dark" data-alt="Team Gamma logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBQ05TS4jq_WEnrgnLDljI4tRpyYkb5UBxHTjGkcbMUz9QTRYbjHApm-2OsJrc7YzV3-n4ZULuMurTXiI8tSpwJ4PVjZWTk2tdE8c2ZwDBY9_SryHUMDQlUZ_MX_HtLQfcfbRfJIf2dGPPVtlvzB5nS1VEOcOpQLeAt_FPzFz3t6XXKweZf91H68j7HFff2R7fNm6jwhR4jWJbsaMMDRwa8ur8bv44OjbGhThR3ZxBaAygNSEpg9ayVgNOzRxteK0obgD1DdYqDJg");'></div>
+<div>
+<p class="text-white font-bold leading-none">Team Gamma</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-slate-300 text-[10px] uppercase font-bold tracking-wider border border-slate-600 bg-slate-800 px-1.5 rounded">General</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-white/5 pt-2 mt-1">
+<div class="flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-sm">near_me</span>
+<span class="text-xs">22km away</span>
+</div>
+<div class="flex text-accent text-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Unavailable Section -->
+<div class="flex flex-col gap-3 mt-4 opacity-60">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">On Leave</h3>
+<div class="flex items-center gap-3 p-2 bg-surface-darker/50 rounded-lg border border-transparent hover:border-border-dark">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 grayscale" data-alt="Team Delta logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9wPvXu7KJohBaM9D8Eg5HCYv1KtZPE5r9-Qdo3fdT7tBvm5diE0OrXGqhsh8SMRqda1mtw9RGk1PeePat_oSrabhAHU_CuSOtG1FkJ7hM7-eILfoQDugf8tZ-Ve-Y8bBHR-emV_7-OBV8RAKWObyuaefAx35boOvTirEIL_bulShAfDzIm5K7rXNUZ4mMqAmx5o066CUaSYpy-qkNHkTdBYhguR5TZHC24-rsGLZeM9HtiJVMugrvXhkjSoTx_r5yVfvmxfP1TA");'></div>
+<p class="text-slate-400 text-sm font-medium">Team Delta</p>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-border-dark bg-surface-darker/30">
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">add</span>
+                    Register New Unit
+                </button>
+</div>
+</aside>
+<!-- Center Stage: Bento Grid -->
+<div class="flex-1 flex flex-col p-4 md:p-6 overflow-hidden gap-6 relative">
+<!-- Page Header & Filters -->
+<div class="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 shrink-0">
+<div class="flex flex-col">
+<div class="flex items-center gap-3">
+<h1 class="text-3xl md:text-4xl font-black tracking-tighter text-white">October 2023</h1>
+<span class="px-2 py-0.5 rounded text-xs font-bold bg-primary/20 text-primary border border-primary/30">CURRENT</span>
+</div>
+<p class="text-slate-400 text-sm md:text-base mt-1">Deployment Schedule • Kurunegala District</p>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark px-3 hover:bg-surface-darker transition-colors">
+<span class="text-slate-300 text-xs font-bold uppercase tracking-wide">Skill Level</span>
+<span class="material-symbols-outlined text-slate-400 text-base">expand_more</span>
+</button>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-surface-dark border border-border-dark px-3 hover:bg-surface-darker transition-colors">
+<span class="text-slate-300 text-xs font-bold uppercase tracking-wide">Estate Size</span>
+<span class="material-symbols-outlined text-slate-400 text-base">expand_more</span>
+</button>
+<div class="h-9 w-px bg-border-dark mx-1"></div>
+<button class="flex h-9 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-4 font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary-hover transition-colors">
+<span class="material-symbols-outlined text-lg">ios_share</span>
+                        Export
+                    </button>
+</div>
+</div>
+<!-- Bento Content -->
+<div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0">
+<!-- Calendar (Takes majority space) -->
+<div class="lg:col-span-7 xl:col-span-8 bg-surface-dark border border-border-dark rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
+<!-- Calendar Header -->
+<div class="grid grid-cols-7 border-b border-border-dark bg-surface-darker/50">
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase">Mon</div>
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase">Tue</div>
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase">Wed</div>
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase">Thu</div>
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase">Fri</div>
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase text-accent">Sat</div>
+<div class="p-3 text-center text-xs font-bold text-slate-500 uppercase text-accent">Sun</div>
+</div>
+<!-- Calendar Body -->
+<div class="grid grid-cols-7 grid-rows-5 flex-1 bg-surface-dark divide-x divide-y divide-border-dark/50">
+<!-- Empty Previous Month Days -->
+<div class="bg-surface-darker/30 p-2 opacity-50"><span class="text-slate-600 text-sm font-medium">28</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50"><span class="text-slate-600 text-sm font-medium">29</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50"><span class="text-slate-600 text-sm font-medium">30</span></div>
+<!-- Oct 1 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">1</span>
+</div>
+<!-- Oct 2 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">2</span>
+<div class="mt-1 p-1.5 rounded bg-blue-900/40 border border-blue-700/50 flex items-center gap-1.5">
+<div class="size-1.5 rounded-full bg-blue-400"></div>
+<span class="text-[10px] text-blue-100 font-medium truncate">Maint. Check</span>
+</div>
+</div>
+<!-- Oct 3 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">3</span>
+</div>
+<!-- Oct 4 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">4</span>
+</div>
+<!-- Week 2 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">5</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">6</span>
+<div class="mt-1 p-1.5 rounded bg-primary/20 border border-primary/40 flex items-center gap-1.5 shadow-sm">
+<div class="size-4 rounded-full bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDG-zN8CMkNoTdplTkaFiIMMku56LPvPJQblR1InK513PEalRZo2spy0w-wROkYZZAGcEV7x_0PgdgC8JD7rvwvShU2DnZtYUvrE7yvPwOoYpQP2Mfwc42qwjfCnHUgpLjtAWqU1qo__rxr4Pe0yVlNggFx3d-UbGc-OdF3Vu0eXqHTVrDt_lgEYRByr4_rugjP-QNb09x_JVfyqgZTBmiTly78AQ-5cIc3RkSB6IOEgge1S5zxt-swEJzCOWIC7ktUHYLtETSzxw");'></div>
+<span class="text-[10px] text-white font-medium truncate">Alpha → Estate 4</span>
+</div>
+</div>
+<!-- Today -->
+<div class="p-2 relative bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer ring-inset ring-1 ring-primary/30">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-sm font-bold shadow-lg shadow-primary/40">7</span>
+<div class="mt-2 text-xs text-primary font-bold text-center uppercase tracking-widest opacity-80">Today</div>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">8</span>
+<div class="mt-1 p-1.5 rounded bg-primary/20 border border-primary/40 flex items-center gap-1.5 shadow-sm opacity-60">
+<div class="size-4 rounded-full bg-cover grayscale" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyXl_WmBzw4JLS_MkjmC2tHlcV-EfYzP_uAaJwe9w2ngn10qqMv1WPRGSnQ44gTWfWMMutza5-VIQzrOaIeJ1tYcRtvjMkGGFIr8nBpgIfLvXWw5QvDcHWQ8YbocLYo2VX-PjZLoh_5iJ0TiC_H78K-odhpq6SkqavporPjx8uhEDoLHmW6m2aaQmZvcDdc7CXTffzIlxdeDN5zeUCjLa5bMhJyvzkaNtbLUUMCjfRnTYvmzOZHk2-2QpUtMU_2KuQIMqZS_9scQ");'></div>
+<span class="text-[10px] text-white font-medium truncate">Beta → Wariyapola</span>
+</div>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">9</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">10</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">11</span>
+</div>
+<!-- Week 3 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">12</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">13</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer border-2 border-dashed border-slate-700 bg-slate-800/30">
+<span class="text-slate-500 text-sm font-medium">14</span>
+<div class="flex h-full items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-[10px] text-slate-400 font-medium">Drop here</span>
+</div>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">15</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">16</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">17</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">18</span>
+</div>
+<!-- Week 4 -->
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">19</span>
+</div>
+<div class="p-2 relative group hover:bg-white/5 transition-colors cursor-pointer">
+<span class="text-slate-300 text-sm font-medium">20</span>
+<!-- Conflict Example -->
+<div class="mt-1 p-1.5 rounded bg-accent/20 border border-accent/60 flex items-center gap-1.5 shadow-sm">
+<span class="material-symbols-outlined text-accent text-sm">warning</span>
+<span class="text-[10px] text-accent font-bold truncate">Conflict</span>
+</div>
+</div>
+<!-- Fillers -->
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">21</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">22</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">23</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">24</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">25</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">26</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">27</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">28</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">29</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">30</span></div>
+<div class="bg-surface-darker/30 p-2 opacity-50 border-t border-l border-border-dark"><span class="text-slate-600 text-sm font-medium">31</span></div>
+</div>
+</div>
+<!-- Map Module -->
+<div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-4 min-h-[400px]">
+<div class="relative w-full h-full rounded-2xl overflow-hidden border border-border-dark shadow-2xl group">
+<!-- Map Background Image -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-location="Dark mode map of Kurunegala, Sri Lanka" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmgt0ssmp8ZoG_fzj4BKhlWg0I84jboIHvzM3eN1Ld47RzVi8tT9q0vbOgkl10cxqU4KuotSGEKLCClq0PUHAu8fVXz6YVRxH3t7-wKstNPNg2AESEFwbGmhoJ7SnM4CaDyqin529x4qJkxByWMmECSmegoBBsbc2db6vw4nz0z8kDStiEhufuhnGKA-F5de49441gTyrvo9xa2DCGkw7pz4NhEvVyXsodjJYlXAB-HyH26OPMBxGYERhws1x2-G_KczVZekV6_w"); filter: brightness(0.7) contrast(1.2) hue-rotate(-10deg);'>
+<!-- Fallback color if image fails -->
+<div class="absolute inset-0 bg-slate-900 map-overlay-pattern"></div>
+</div>
+<!-- Map Controls -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-10">
+<button class="bg-surface-dark/90 backdrop-blur text-white p-2 rounded-lg hover:bg-primary hover:text-white transition-colors border border-border-dark shadow-lg">
+<span class="material-symbols-outlined">layers</span>
+</button>
+<button class="bg-surface-dark/90 backdrop-blur text-white p-2 rounded-lg hover:bg-primary hover:text-white transition-colors border border-border-dark shadow-lg">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<!-- Estate Polygons Overlay (Simulated with SVG) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 400 600">
+<defs>
+<pattern height="4" id="stripe-pattern" patternunits="userSpaceOnUse" width="4">
+<path d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" style="stroke:#1e5c46; stroke-width:1; opacity: 0.5"></path>
+</pattern>
+</defs>
+<!-- Estate 1: Silvermill -->
+<path class="cursor-pointer pointer-events-auto hover:fill-[url(#stripe-pattern)] transition-all duration-300" d="M120,150 L180,130 L210,180 L140,210 Z" fill="rgba(30, 92, 70, 0.1)" stroke="#1e5c46" stroke-width="2">
+<title>Silvermill Estate</title>
+</path>
+<!-- Estate 2: Wariyapola (High Priority) -->
+<path class="cursor-pointer pointer-events-auto hover:fill-[url(#stripe-pattern)] transition-all duration-300" d="M220,250 L300,240 L320,300 L250,330 L200,300 Z" fill="rgba(230, 184, 123, 0.1)" stroke="#E6B87B" stroke-dasharray="4 2" stroke-width="2">
+<title>Wariyapola Plantation (High Priority)</title>
+</path>
+<!-- Estate 3: Remote -->
+<path class="cursor-pointer pointer-events-auto hover:fill-[url(#stripe-pattern)] transition-all duration-300" d="M50,350 L100,340 L120,400 L60,420 Z" fill="rgba(30, 92, 70, 0.1)" stroke="#1e5c46" stroke-width="2"></path>
+</svg>
+<!-- Team Markers on Map -->
+<div class="absolute top-[32%] left-[45%] translate-x-[-50%] translate-y-[-50%] flex flex-col items-center group/marker cursor-pointer z-10">
+<div class="relative">
+<div class="absolute inset-0 bg-primary rounded-full animate-ping opacity-75"></div>
+<div class="relative size-3 bg-white border-2 border-primary rounded-full shadow-[0_0_10px_#1e5c46]"></div>
+</div>
+<div class="mt-1 bg-surface-darker/90 backdrop-blur px-2 py-1 rounded text-[10px] text-white font-medium border border-border-dark opacity-0 group-hover/marker:opacity-100 transition-opacity whitespace-nowrap">
+                                Alpha Team
+                            </div>
+</div>
+<div class="absolute top-[48%] left-[65%] translate-x-[-50%] translate-y-[-50%] flex flex-col items-center group/marker cursor-pointer z-10">
+<div class="size-3 bg-accent border-2 border-white rounded-full shadow-[0_0_10px_#E6B87B]"></div>
+<div class="mt-1 bg-surface-darker/90 backdrop-blur px-2 py-1 rounded text-[10px] text-accent font-medium border border-accent/20 opacity-100 transition-opacity whitespace-nowrap">
+                                Beta (In Transit)
+                            </div>
+</div>
+<!-- Map Legend Overlay -->
+<div class="absolute bottom-4 left-4 right-4 glass-panel p-3 rounded-xl flex items-center justify-between z-10">
+<div class="flex flex-col">
+<h4 class="text-white text-xs font-bold uppercase tracking-wide">Map View</h4>
+<p class="text-[10px] text-slate-400">Kurunegala District Boundaries</p>
+</div>
+<div class="flex gap-3">
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-primary"></div>
+<span class="text-[10px] text-slate-300">Active</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-accent"></div>
+<span class="text-[10px] text-slate-300">Priority</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats Below Map -->
+<div class="grid grid-cols-2 gap-4 h-24 shrink-0">
+<div class="bg-surface-dark border border-border-dark rounded-xl p-3 flex flex-col justify-center">
+<p class="text-slate-400 text-xs font-medium">Estates Covered</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-bold text-white">12</span>
+<span class="text-xs text-primary font-bold mb-1">+2 today</span>
+</div>
+<div class="w-full bg-surface-darker h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[60%]"></div>
+</div>
+</div>
+<div class="bg-surface-dark border border-border-dark rounded-xl p-3 flex flex-col justify-center">
+<p class="text-slate-400 text-xs font-medium">Utilization</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-bold text-white">85%</span>
+</div>
+<div class="w-full bg-surface-darker h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-accent h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating visual feedback (Simulated dragging ghost) -->
+<!-- This is typically handled by JS, but visual representation for the design -->
+<!-- <div class="fixed top-1/2 left-1/3 z-50 pointer-events-none opacity-0">
+        <div class="bg-surface-dark border border-primary text-white p-3 rounded-lg shadow-2xl rotate-3 w-48">
+            <div class="flex items-center gap-2">
+                <div class="size-6 bg-slate-700 rounded-full"></div>
+                <span class="font-bold">Team Alpha</span>
+            </div>
+        </div>
+    </div> -->
+</body></html>

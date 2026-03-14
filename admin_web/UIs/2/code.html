@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crushing Site Management</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e5c46",
+                        "primary-hover": "#164534",
+                        "secondary": "#2b4039",
+                        "accent": "#E6B87B",
+                        "background-light": "#f9fbf9",
+                        "background-dark": "#16221e",
+                        "card-dark": "#1e2b27",
+                        "card-border": "#2b4039",
+                        "text-muted": "#9dbeb2",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Work Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Work Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .glass-effect {
+            background: rgba(30, 43, 39, 0.7);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-card-border bg-background-dark/95 backdrop-blur supports-[backdrop-filter]:bg-background-dark/60">
+<div class="px-6 h-16 flex items-center justify-between max-w-[1440px] mx-auto w-full">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">forest</span>
+</div>
+<span class="font-display font-bold text-lg tracking-tight">AgroCo <span class="text-text-muted font-normal">/ Kurunegala</span></span>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-white text-sm font-medium border-b-2 border-primary pb-0.5" href="#">Dashboard</a>
+<a class="text-text-muted hover:text-white text-sm font-medium transition-colors" href="#">Machines</a>
+<a class="text-text-muted hover:text-white text-sm font-medium transition-colors" href="#">Staff</a>
+<a class="text-text-muted hover:text-white text-sm font-medium transition-colors" href="#">Yield Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-card-dark border border-card-border">
+<span class="material-symbols-outlined text-accent text-sm">wb_sunny</span>
+<span class="text-xs font-medium text-text-muted">32°C Sunny</span>
+</div>
+<div class="size-9 rounded-full bg-card-dark border border-card-border flex items-center justify-center relative">
+<span class="material-symbols-outlined text-text-muted">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</div>
+<div class="size-9 rounded-full bg-cover bg-center border border-card-border" data-alt="User avatar profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCS9hdi3vVL095e6u3REGyoFbb51QianjWDZ6g2mYWAXUj0hvCeWBXLH0KmZIbT_wHHlsMs25vscTAe3qdd5S9ns78ktgNCEwe5r7WEHh93WST1WTqhnxWaUHsALAvtMYRZvodC9F9tNW5jYG1PXUAGXNmg_d26iDboTC5qztQeB6Fo9_CP98FcYZs_gGs65viv97LRM2Fj7aPcEtHSOyOL8haqdKapByNadabPBlr7HM3E9klOOVkNwNJ-eidr4Z-ifCKeIwUyw');"></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1440px] mx-auto p-6 md:p-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="text-3xl md:text-4xl font-bold tracking-tight">Plant #4 Dashboard</h1>
+<span class="px-2.5 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-bold uppercase tracking-wider">Operational</span>
+</div>
+<p class="text-text-muted">Shift: Morning (06:00 - 14:00) • Foreman: Priyantha P.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-card-border bg-card-dark hover:bg-card-border text-white text-sm font-medium transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+<span>Export Shift Report</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover shadow-lg shadow-primary/20 text-white text-sm font-bold transition-all group">
+<span class="material-symbols-outlined text-lg group-hover:animate-pulse">warning</span>
+<span>Report Issue</span>
+</button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<!-- 1. Production Stats (Span 2 cols on LG) -->
+<div class="md:col-span-3 lg:col-span-2 rounded-xl bg-card-dark border border-card-border p-6 shadow-sm relative overflow-hidden group">
+<!-- Decorative background element -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<div class="flex justify-between items-center mb-6 relative z-10">
+<h3 class="text-lg font-bold font-display flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                        Production Overview
+                    </h3>
+<span class="text-xs text-text-muted font-mono bg-background-dark px-2 py-1 rounded">LIVE</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+<div class="flex flex-col gap-1">
+<span class="text-sm text-text-muted">Daily Target (Nuts)</span>
+<span class="text-2xl font-bold font-display text-white">15,000</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-sm text-text-muted">Crushed Count</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-display text-white">12,450</span>
+<span class="text-sm font-medium text-green-400">83%</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-sm text-text-muted">Est. Oil Yield</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-bold font-display text-accent">2,100</span>
+<span class="text-sm font-medium text-text-muted">Liters</span>
+</div>
+</div>
+</div>
+<div class="relative pt-2">
+<div class="flex justify-between text-xs text-text-muted mb-2">
+<span>Progress to Goal</span>
+<span>2,550 remaining</span>
+</div>
+<div class="h-3 w-full bg-[#2b4039] rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-emerald-400 rounded-full" style="width: 83%"></div>
+</div>
+<!-- Ticks for visual measurement -->
+<div class="flex justify-between mt-1 px-1">
+<div class="w-px h-1 bg-card-border"></div>
+<div class="w-px h-1 bg-card-border"></div>
+<div class="w-px h-1 bg-card-border"></div>
+<div class="w-px h-1 bg-card-border"></div>
+<div class="w-px h-1 bg-card-border"></div>
+</div>
+</div>
+</div>
+<!-- 2. Shift Roster (Span 1 col on LG, 1 col on MD) -->
+<div class="md:col-span-1 lg:col-span-1 md:row-span-2 rounded-xl bg-card-dark border border-card-border p-5 shadow-sm flex flex-col">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-lg font-bold font-display">Shift Crew</h3>
+<span class="text-xs text-text-muted">4 Active</span>
+</div>
+<div class="flex flex-col gap-3 flex-1 overflow-y-auto pr-1 custom-scrollbar">
+<!-- Foreman -->
+<div class="flex items-center gap-3 p-3 rounded-lg bg-background-dark border border-card-border">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Portrait of Priyantha P" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfSF_Ci5Bz8i67-glCaCzmH63Z3EtmyQ9SXev0jTG3F9yZs4-cPU5sa5EBLCz-oNhGtnbkuuoJuGcDKCgsTisEzgI_Adaj8mFtGMy2hlq-GbZ2BasGvFlNlKMXXswF3akNv6N9Y7aID1eULm0oz0ARsEerJptSHdyXpUPQXoMAuv6tzaIhnuS4IOqCuD0Yf24TVuadCS2z3WL6fpOV5e4GGrYyOhwyzz6ez94P8rCv4okPFitXychK4MeQHvQLuyn55kONM_IrIA');"></div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-green-500 border-2 border-background-dark rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-white truncate">Priyantha P.</p>
+<p class="text-xs text-primary font-medium uppercase tracking-wide">Foreman</p>
+</div>
+</div>
+<!-- Operator 1 -->
+<div class="flex items-center gap-3 p-3 rounded-lg hover:bg-background-dark/50 transition-colors cursor-pointer group">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center grayscale group-hover:grayscale-0 transition-all" data-alt="Portrait of worker 1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCY6ThpFH-DkxJM3D2d5VLwilSF6-K_N_A_-OSQAZc_MwhvvoAszJuXPfhQyyizUzivm4DDPAy0naEIrl7gLCVPbARwhkbJgyWHMslnPSZ0fwnWN8ZUIgCjqd6eOMRMSa6vtn36_v2ikO6UX4jeMqAdwFevH9VZPPqN78Y8xapFzEjWPL0V0eCNW6tgGRmijf6s_gcTwNlKr1tplqk38Fep65dOmFR2sOma8kN92qWamFUOHHGJSE9fBTBZebQFa1XWCBI8HXb9w');"></div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-green-500 border-2 border-card-dark rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-white truncate">Kamal S.</p>
+<p class="text-xs text-text-muted">Operator A</p>
+</div>
+<span class="text-xs text-text-muted font-mono">06:01</span>
+</div>
+<!-- Operator 2 -->
+<div class="flex items-center gap-3 p-3 rounded-lg hover:bg-background-dark/50 transition-colors cursor-pointer group">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center grayscale group-hover:grayscale-0 transition-all" data-alt="Portrait of worker 2" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCXj9BHdX05yOyg9To6LidB9BelLZfcWTRrnw9O33yc9zfwJLtF_8Xug396_ui2lMMovIJZRFIwgkfiFSQUPOx6c8f-Ykgso-MrEtsfWNGkKvAXjRSrwdCDfV_BS6TZ5GCzT0t1aizK6RUC6WH4SBKk1PXX5sIOPDHx6BN04PQTdNomTU8fGbUe6OikqFvGIVeR_hMMQ6Kj8euPXTUDebkR5wUf6XPaLSLd9zCv1UCsTNyux3HQc1S2qEdjsDirVHi5y11aHwpIbw');"></div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-green-500 border-2 border-card-dark rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-white truncate">Nimal J.</p>
+<p class="text-xs text-text-muted">Operator B</p>
+</div>
+<span class="text-xs text-text-muted font-mono">05:55</span>
+</div>
+<!-- Technician -->
+<div class="flex items-center gap-3 p-3 rounded-lg hover:bg-background-dark/50 transition-colors cursor-pointer group">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center grayscale group-hover:grayscale-0 transition-all" data-alt="Portrait of technician" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApX5pxAyU9N4ZNLzvqIogPF-yMNfUiWX9ceIignUrWqKtdTOWgl5T6-6D4JEjeXDuVPQaLIC-txkVeJ48MBEAcK4zgr6Lp6mhkNWmBFMoq3fdUgMvk_dnzfU_nItLpqXmhqJR7LI9YVVle1KjVzlCp5KU3XQ35e8sjXoC259cvShlikOlkpYPOMPqO0qiDE37VrE4bnMy7FVLnoP3SMxm40WJ6QuF0q6WezROdt1jIsox9biU8IdfGgQkxUZ_xi_ZGk0mhFUekgA');"></div>
+<span class="absolute -bottom-1 -right-1 size-3 bg-accent border-2 border-card-dark rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-white truncate">Sunil R.</p>
+<p class="text-xs text-text-muted">Tech Support</p>
+</div>
+<span class="text-xs text-text-muted font-mono">08:30</span>
+</div>
+</div>
+</div>
+<!-- 3. Weather/Environment Context (Small card) -->
+<div class="hidden lg:flex lg:col-span-1 rounded-xl bg-card-dark border border-card-border p-6 shadow-sm flex-col justify-between relative overflow-hidden">
+<!-- Abstract image representing coconut palms/environment -->
+<div class="absolute inset-0 z-0 bg-cover bg-center opacity-20" data-alt="Dark abstract texture of palm leaves" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfIF9UCX1imWHwBkmuk1kSaCuUwdBJwYJfyZUY3jVN9S5DZWJnfLQAU4hsp0KXesNzAZAGViDvUNwR54O51WIrWruYVI0TtU1EcVrksgyluqq2hsMVJN0jkAlBrbs55eb3gPTGqmM9n0UCDV8Ortck3jFrd6CBQqhX3Do2t2cbj75R51RcQ9JjGu9sAn31ijgRse8ehaWuw730ord5fWEBbR-py5H00LRJsfBLXpXoWhw6Tjb6byAilr7J-BET-wNsCTatGxZe6w');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-card-dark via-card-dark/80 to-transparent z-0"></div>
+<div class="relative z-10">
+<h3 class="text-lg font-bold font-display text-white mb-1">Site Conditions</h3>
+<p class="text-xs text-text-muted">Kurunegala District</p>
+</div>
+<div class="relative z-10 grid grid-cols-2 gap-4 mt-4">
+<div>
+<span class="block text-xs text-text-muted mb-1">Ambient Temp</span>
+<span class="text-xl font-bold font-display">32°C</span>
+</div>
+<div>
+<span class="block text-xs text-text-muted mb-1">Humidity</span>
+<span class="text-xl font-bold font-display">78%</span>
+</div>
+<div>
+<span class="block text-xs text-text-muted mb-1">Power Grid</span>
+<span class="text-sm font-bold text-green-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">bolt</span> Stable
+                        </span>
+</div>
+</div>
+</div>
+<!-- SECTION: Machine Telemetry (Row 2) -->
+<!-- Machine 1 Card -->
+<div class="rounded-xl bg-card-dark border border-card-border p-0 shadow-sm overflow-hidden flex flex-col">
+<div class="p-5 border-b border-card-border bg-[#22302c]">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<div class="size-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse"></div>
+<h4 class="font-bold font-display text-white">Crusher Unit A-01</h4>
+</div>
+<div class="flex items-center gap-2">
+<label class="inline-flex items-center cursor-pointer group">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-text-muted after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-2 text-xs font-medium text-text-muted group-hover:text-white transition-colors">Logs</span>
+</label>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="text-[10px] uppercase tracking-wider font-bold text-text-muted border border-card-border px-1.5 py-0.5 rounded">Expeller</span>
+<span class="text-[10px] uppercase tracking-wider font-bold text-text-muted border border-card-border px-1.5 py-0.5 rounded">Model X200</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between gap-6">
+<!-- Metrics -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<span class="text-xs text-text-muted flex items-center gap-1"><span class="material-symbols-outlined text-sm">speed</span> RPM</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-bold font-display text-white">1,240</span>
+<span class="text-xs text-text-muted mb-1">/ 1500</span>
+</div>
+<!-- Tiny sparkline bar -->
+<div class="flex items-end gap-[2px] h-6 mt-1">
+<div class="w-1 bg-primary/30 h-[40%] rounded-sm"></div>
+<div class="w-1 bg-primary/40 h-[60%] rounded-sm"></div>
+<div class="w-1 bg-primary/60 h-[50%] rounded-sm"></div>
+<div class="w-1 bg-primary h-[80%] rounded-sm"></div>
+<div class="w-1 bg-primary h-[85%] rounded-sm"></div>
+</div>
+</div>
+<div class="space-y-1">
+<span class="text-xs text-text-muted flex items-center gap-1"><span class="material-symbols-outlined text-sm">thermometer</span> Temp</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-bold font-display text-white">65°C</span>
+</div>
+<!-- Thermometer visual -->
+<div class="w-full bg-background-dark rounded-full h-1.5 mt-5 overflow-hidden">
+<div class="bg-gradient-to-r from-green-500 to-yellow-500 h-full w-[65%] rounded-full"></div>
+</div>
+<span class="text-[10px] text-text-muted text-right block mt-1">Safe range &lt; 80°C</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Machine 2 Card (Warning State) -->
+<div class="rounded-xl bg-card-dark border border-accent/30 p-0 shadow-sm overflow-hidden flex flex-col relative">
+<!-- Warning Overlay Highlight -->
+<div class="absolute inset-0 bg-accent/5 pointer-events-none z-0"></div>
+<div class="p-5 border-b border-accent/20 bg-[#2f2922] relative z-10">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<div class="size-2.5 rounded-full bg-accent animate-pulse"></div>
+<h4 class="font-bold font-display text-white">Crusher Unit A-02</h4>
+</div>
+<div class="flex items-center gap-2">
+<label class="inline-flex items-center cursor-pointer group">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-text-muted after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-2 text-xs font-medium text-text-muted group-hover:text-white transition-colors">Logs</span>
+</label>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="text-[10px] uppercase tracking-wider font-bold text-accent/80 border border-accent/20 bg-accent/10 px-1.5 py-0.5 rounded">High Temp</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between gap-6 relative z-10">
+<!-- Metrics -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<span class="text-xs text-text-muted flex items-center gap-1"><span class="material-symbols-outlined text-sm">speed</span> RPM</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-bold font-display text-white">1,180</span>
+<span class="text-xs text-text-muted mb-1">/ 1500</span>
+</div>
+<!-- Tiny sparkline bar -->
+<div class="flex items-end gap-[2px] h-6 mt-1">
+<div class="w-1 bg-primary/30 h-[40%] rounded-sm"></div>
+<div class="w-1 bg-primary/40 h-[50%] rounded-sm"></div>
+<div class="w-1 bg-primary/60 h-[45%] rounded-sm"></div>
+<div class="w-1 bg-accent h-[70%] rounded-sm"></div>
+<div class="w-1 bg-accent h-[65%] rounded-sm"></div>
+</div>
+</div>
+<div class="space-y-1">
+<span class="text-xs text-accent flex items-center gap-1"><span class="material-symbols-outlined text-sm">thermometer</span> Temp</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-bold font-display text-accent">82°C</span>
+</div>
+<!-- Thermometer visual -->
+<div class="w-full bg-background-dark rounded-full h-1.5 mt-5 overflow-hidden">
+<div class="bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 h-full w-[85%] rounded-full"></div>
+</div>
+<span class="text-[10px] text-accent text-right block mt-1 font-bold">Overheating</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Machine 3 Card -->
+<div class="rounded-xl bg-card-dark border border-card-border p-0 shadow-sm overflow-hidden flex flex-col">
+<div class="p-5 border-b border-card-border bg-[#22302c]">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<div class="size-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+<h4 class="font-bold font-display text-white">Crusher Unit A-03</h4>
+</div>
+<div class="flex items-center gap-2">
+<label class="inline-flex items-center cursor-pointer group">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-9 h-5 bg-background-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-text-muted after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-2 text-xs font-medium text-text-muted group-hover:text-white transition-colors">Logs</span>
+</label>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="text-[10px] uppercase tracking-wider font-bold text-text-muted border border-card-border px-1.5 py-0.5 rounded">Filter Press</span>
+<span class="text-[10px] uppercase tracking-wider font-bold text-text-muted border border-card-border px-1.5 py-0.5 rounded">Model Z10</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col justify-between gap-6">
+<!-- Metrics -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<span class="text-xs text-text-muted flex items-center gap-1"><span class="material-symbols-outlined text-sm">speed</span> RPM</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-bold font-display text-white">1,255</span>
+<span class="text-xs text-text-muted mb-1">/ 1500</span>
+</div>
+<!-- Tiny sparkline bar -->
+<div class="flex items-end gap-[2px] h-6 mt-1">
+<div class="w-1 bg-primary/30 h-[40%] rounded-sm"></div>
+<div class="w-1 bg-primary/40 h-[50%] rounded-sm"></div>
+<div class="w-1 bg-primary/60 h-[60%] rounded-sm"></div>
+<div class="w-1 bg-primary h-[82%] rounded-sm"></div>
+<div class="w-1 bg-primary h-[81%] rounded-sm"></div>
+</div>
+</div>
+<div class="space-y-1">
+<span class="text-xs text-text-muted flex items-center gap-1"><span class="material-symbols-outlined text-sm">thermometer</span> Temp</span>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-bold font-display text-white">62°C</span>
+</div>
+<!-- Thermometer visual -->
+<div class="w-full bg-background-dark rounded-full h-1.5 mt-5 overflow-hidden">
+<div class="bg-gradient-to-r from-green-500 to-yellow-500 h-full w-[62%] rounded-full"></div>
+</div>
+<span class="text-[10px] text-text-muted text-right block mt-1">Safe range &lt; 80°C</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Maintenance Log Summary (Span 3 cols on MD, 4 on LG to fill bottom row) -->
+<div class="col-span-1 md:col-span-3 lg:col-span-4 rounded-xl bg-card-dark border border-card-border p-6 shadow-sm mt-4 lg:mt-0">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold font-display flex items-center gap-2">
+<span class="material-symbols-outlined text-text-muted">history</span>
+                        Recent Activity Log
+                    </h3>
+<button class="text-sm text-primary hover:text-white font-medium transition-colors">View All Logs</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-card-border text-xs text-text-muted uppercase tracking-wider">
+<th class="pb-3 font-medium pl-2">Time</th>
+<th class="pb-3 font-medium">Machine</th>
+<th class="pb-3 font-medium">Event Type</th>
+<th class="pb-3 font-medium">Status</th>
+<th class="pb-3 font-medium">Technician</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="group hover:bg-background-dark/50 transition-colors">
+<td class="py-3 pl-2 text-white font-mono">09:45 AM</td>
+<td class="py-3 text-text-muted">Unit A-02</td>
+<td class="py-3 text-white">Temperature Spike Warning</td>
+<td class="py-3"><span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-accent/10 text-accent border border-accent/20">Investigating</span></td>
+<td class="py-3 text-text-muted flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Tech avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDyYDU4ArfhW7zTQnTjIvadPVnwPZzrH0DKF9IfwjxQgpYXSh4ENeTBnE5dOEM4NrPa4CWxzVThS6F_vxp_dWzxFa7IR9G1r4FxwQOAQaIDMjwdG5j8hwy_KpuTUyNMnSfAHbhtEERDmK-bHNwc0E7YMYQYgDhvMp2sAVqCVmsAitkD41ffsVBp5dV55w4HrFWtVylgylLh9dllsamGkBy_rR3zmbHbk21bkxTsYmYw6MoWu1osHOC54thrDBxEqAcRG_-7nuOczg');"></div>
+                                    Sunil R.
+                                </td>
+</tr>
+<tr class="group hover:bg-background-dark/50 transition-colors border-t border-card-border/50">
+<td class="py-3 pl-2 text-white font-mono">08:15 AM</td>
+<td class="py-3 text-text-muted">Unit A-01</td>
+<td class="py-3 text-white">Routine Lubrication</td>
+<td class="py-3"><span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Completed</span></td>
+<td class="py-3 text-text-muted flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Tech avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfzX0DL7MOev5AfgDY_SKeArA0UZCak7uwpFU-WsWS3IIT2I1A97EqXsqdAiqmSC1fTwmrEegor9vBZMa0FScDz57G_GuCohAd2eeDEmnn38mcc32oOJrSQQnilJ07VwZekzbZK9h_tzpB9KENTzS59csxqR7YgPwoQXil-rZhIedJnbJxd4VWRYkMpEwV3qtD2J06lAD8oR-4td-jxoYrfEuD-zntd3NshdZ-n77ar0PJ7fmx3uGKSvtKJfA-iTt32FzezTJ4mw');"></div>
+                                    Sunil R.
+                                </td>
+</tr>
+<tr class="group hover:bg-background-dark/50 transition-colors border-t border-card-border/50">
+<td class="py-3 pl-2 text-white font-mono">07:00 AM</td>
+<td class="py-3 text-text-muted">System</td>
+<td class="py-3 text-white">Shift Start Checklist</td>
+<td class="py-3"><span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">Verified</span></td>
+<td class="py-3 text-text-muted flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Foreman avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDqjdnXLmm7AIUeNYp01GG3XuoxjroWYeMiU0CR1canN5nEDUPSbxCTwCr6Af5CNk2WC4LHUbuq2tYKcbPhMCgqNd588ec2eiJP2HrEeYvlbI31EszKLmaV3t8Xi0xv1Oezjb_m6tfNIXowCryjvoy5jE460EUaqm5lc4uiKles0GCTEQzGBkFwa-LXQlg1l32JvfX1kdMqA-cVZhgzKcbN77Yz0ruE5ynYVff98_f9QZDEN53jkTFVnxgByY6n4M5rF26rBR394A');"></div>
+                                    Priyantha P.
+                                </td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<style>
+        /* Custom scrollbar for the roster list */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #16221e;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2b4039;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #1e5c46;
+        }
+    </style>
+</body></html>

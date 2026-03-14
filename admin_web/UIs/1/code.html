@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Regional Dispatch Dashboard - Kurunegala</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e5c46",
+                        "primary-hover": "#164534",
+                        "accent-amber": "#E6B87B",
+                        "background-light": "#f9fbf9",
+                        "background-dark": "#16221e", // Deep organic green
+                        "surface-dark": "#1c2b26", // Slightly lighter for cards
+                        "surface-border": "#2b4039",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Noto Sans", sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: "Space Grotesk", sans-serif;
+        }
+        /* Custom scrollbar for dark mode feeling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #16221e; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b4039; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e5c46; 
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden h-screen flex">
+<!-- Side Navigation -->
+<aside class="w-20 lg:w-64 bg-background-dark border-r border-surface-border flex flex-col justify-between shrink-0 transition-all duration-300 z-20">
+<div class="flex flex-col h-full">
+<!-- Brand / User -->
+<div class="p-6 flex items-center gap-4 mb-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 border-2 border-primary" data-alt="Profile picture of dispatch coordinator" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuByV1eRT3Mh2rna0kmhVxvkgOWI_SA2gSqYGXj1qsRMbSisCK1V9avXnpHakCryJRO_Kg3qac0RW2ITUcGA91XcLXglX5JDmemOjKZAQrQiI8xKVC_fb48fzwnQWZQs1D8ZlDM0bLxAI_kfC1MJOXFTeZVkKHKtaLdlkVuc08jI_Uo1mx4o3nbZO1FuZo0UK3WdN955K-EMym85I2eQRmJqvDXzsdrHW3GJIzwnIvZFkalyElB5mmCP7zx7zLW-WloNDbCkoelyWA");'></div>
+<div class="flex flex-col hidden lg:flex">
+<h1 class="text-white text-base font-bold leading-tight">Dispatch</h1>
+<p class="text-[#9dbeb2] text-xs font-normal">Kurunegala HQ</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2 px-4 flex-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary text-white group transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium leading-normal hidden lg:block">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9dbeb2] hover:bg-surface-border hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-sm font-medium leading-normal hidden lg:block">Teams</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9dbeb2] hover:bg-surface-border hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">location_on</span>
+<span class="text-sm font-medium leading-normal hidden lg:block">Estates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9dbeb2] hover:bg-surface-border hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm font-medium leading-normal hidden lg:block">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9dbeb2] hover:bg-surface-border hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium leading-normal hidden lg:block">Settings</span>
+</a>
+</nav>
+<!-- Bottom Actions -->
+<div class="p-4 border-t border-surface-border">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9dbeb2] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium leading-normal hidden lg:block">Log Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+<!-- Top Header -->
+<header class="h-16 border-b border-surface-border bg-background-dark/95 backdrop-blur-sm flex items-center justify-between px-6 shrink-0 z-10">
+<div class="flex items-center gap-4">
+<div class="text-primary hidden md:block">
+<!-- Abstract Logo Icon -->
+<svg fill="none" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2 17L12 22L22 17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2 12L12 17L22 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold tracking-tight font-display">Regional Dispatch</h2>
+</div>
+<div class="flex items-center gap-4 md:gap-6">
+<!-- Search Bar -->
+<div class="hidden md:flex items-center bg-surface-dark rounded-lg px-3 py-1.5 border border-surface-border focus-within:border-primary transition-colors w-64 lg:w-80">
+<span class="material-symbols-outlined text-[#9dbeb2] text-xl">search</span>
+<input class="bg-transparent border-none text-white placeholder-[#5d7e72] text-sm w-full focus:ring-0" placeholder="Search Estates or Teams" type="text"/>
+</div>
+<!-- Notifications -->
+<button class="relative text-[#9dbeb2] hover:text-white transition-colors p-1">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 size-2 bg-accent-amber rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content Grid -->
+<div class="flex-1 overflow-y-auto p-4 lg:p-6">
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 h-full min-h-[800px]">
+<!-- LEFT COLUMN: MAP (Takes up 2/3 on large screens) -->
+<div class="xl:col-span-2 flex flex-col gap-4 h-full min-h-[500px] relative group rounded-xl overflow-hidden border border-surface-border bg-surface-dark shadow-2xl">
+<!-- Map Container -->
+<div class="absolute inset-0 w-full h-full bg-surface-dark">
+<!-- Dark Map Background Image -->
+<div class="w-full h-full bg-cover bg-center opacity-80" data-alt="Dark stylized map of Kurunegala district with roads and terrain" data-location="Kurunegala" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmgt0ssmp8ZoG_fzj4BKhlWg0I84jboIHvzM3eN1Ld47RzVi8tT9q0vbOgkl10cxqU4KuotSGEKLCClq0PUHAu8fVXz6YVRxH3t7-wKstNPNg2AESEFwbGmhoJ7SnM4CaDyqin529x4qJkxByWMmECSmegoBBsbc2db6vw4nz0z8kDStiEhufuhnGKA-F5de49441gTyrvo9xa2DCGkw7pz4NhEvVyXsodjJYlXAB-HyH26OPMBxGYERhws1x2-G_KczVZekV6_w"); filter: hue-rotate(150deg) invert(1) grayscale(0.6) brightness(0.6);'>
+</div>
+<!-- Map Overlay Gradient for readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent pointer-events-none"></div>
+<!-- Interactive Map Elements (Simulated) -->
+<!-- Marker 1: Active -->
+<div class="absolute top-[40%] left-[45%] flex flex-col items-center gap-1 group/marker cursor-pointer">
+<div class="relative flex items-center justify-center">
+<span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-40 animate-ping"></span>
+<div class="relative bg-primary text-white p-1.5 rounded-full shadow-lg border-2 border-background-dark">
+<span class="material-symbols-outlined text-sm">factory</span>
+</div>
+</div>
+<div class="bg-surface-dark/90 backdrop-blur px-3 py-1 rounded text-xs font-medium text-white opacity-0 group-hover/marker:opacity-100 transition-opacity border border-surface-border whitespace-nowrap">
+                                Estate Alpha <span class="text-primary ml-1">• Active</span>
+</div>
+</div>
+<!-- Marker 2: Alert -->
+<div class="absolute top-[30%] left-[60%] flex flex-col items-center gap-1 group/marker cursor-pointer">
+<div class="relative bg-accent-amber text-background-dark p-1.5 rounded-full shadow-lg border-2 border-background-dark">
+<span class="material-symbols-outlined text-sm">warning</span>
+</div>
+<div class="bg-surface-dark/90 backdrop-blur px-3 py-1 rounded text-xs font-medium text-white opacity-0 group-hover/marker:opacity-100 transition-opacity border border-surface-border whitespace-nowrap">
+                                Nikaweratiya Site <span class="text-accent-amber ml-1">• Stalled</span>
+</div>
+</div>
+<!-- Marker 3: Idle -->
+<div class="absolute top-[65%] left-[35%] flex flex-col items-center gap-1 group/marker cursor-pointer">
+<div class="relative bg-gray-600 text-white p-1.5 rounded-full shadow-lg border-2 border-background-dark">
+<span class="material-symbols-outlined text-sm">warehouse</span>
+</div>
+<div class="bg-surface-dark/90 backdrop-blur px-3 py-1 rounded text-xs font-medium text-white opacity-0 group-hover/marker:opacity-100 transition-opacity border border-surface-border whitespace-nowrap">
+                                Wariyapola Depot <span class="text-gray-400 ml-1">• Idle</span>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute top-4 left-4 flex flex-col gap-2 w-64">
+<!-- In-map Search -->
+<div class="bg-surface-dark/90 backdrop-blur rounded-lg border border-surface-border shadow-lg flex items-center p-2">
+<span class="material-symbols-outlined text-[#9dbeb2] mx-2">filter_alt</span>
+<select class="bg-transparent border-none text-white text-sm focus:ring-0 w-full p-0">
+<option>All Statuses</option>
+<option>Active Crushing</option>
+<option>Maintenance</option>
+<option>Transporting</option>
+</select>
+</div>
+</div>
+<div class="absolute bottom-6 right-6 flex flex-col gap-2">
+<button class="bg-surface-dark/90 backdrop-blur hover:bg-surface-border text-white p-2 rounded-lg shadow-lg border border-surface-border transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<div class="flex flex-col bg-surface-dark/90 backdrop-blur rounded-lg border border-surface-border shadow-lg overflow-hidden">
+<button class="p-2 hover:bg-surface-border text-white border-b border-surface-border/50">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="p-2 hover:bg-surface-border text-white">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Stats & Activity (Takes up 1/3) -->
+<div class="xl:col-span-1 flex flex-col gap-6 h-full overflow-visible">
+<!-- KPI Cards (Bento Grid) -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Card 1: Primary Metric -->
+<div class="col-span-2 bg-surface-dark border border-surface-border rounded-xl p-5 shadow-sm hover:border-primary/50 transition-colors group">
+<div class="flex justify-between items-start mb-2">
+<p class="text-[#9dbeb2] text-sm font-medium font-display uppercase tracking-wider">Coconuts Processed</p>
+<span class="bg-primary/20 text-primary text-xs px-2 py-0.5 rounded font-bold">+12%</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-4xl font-bold text-white font-display group-hover:text-primary transition-colors">24,500</h3>
+<span class="text-sm text-gray-500 font-medium">today</span>
+</div>
+</div>
+<!-- Card 2: Teams -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 shadow-sm">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-xl">groups</span>
+<p class="text-[#9dbeb2] text-sm font-medium font-display">Active Teams</p>
+</div>
+<p class="text-2xl font-bold text-white font-display">12<span class="text-gray-500 text-lg">/15</span></p>
+</div>
+<!-- Card 3: Alerts -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-5 shadow-sm relative overflow-hidden">
+<!-- Amber glow effect -->
+<div class="absolute -right-4 -top-4 w-16 h-16 bg-accent-amber/10 rounded-full blur-xl"></div>
+<div class="flex items-center gap-2 mb-3 relative z-10">
+<span class="material-symbols-outlined text-accent-amber text-xl">warning</span>
+<p class="text-[#9dbeb2] text-sm font-medium font-display">Urgent Alerts</p>
+</div>
+<p class="text-2xl font-bold text-white font-display relative z-10">2</p>
+</div>
+</div>
+<!-- Activity Feed Panel -->
+<div class="flex-1 bg-surface-dark border border-surface-border rounded-xl flex flex-col shadow-sm overflow-hidden min-h-[300px]">
+<div class="p-5 border-b border-surface-border flex justify-between items-center bg-surface-dark sticky top-0 z-10">
+<h3 class="text-white font-bold font-display text-lg">Recent Activity</h3>
+<button class="text-xs text-primary hover:text-white font-medium uppercase tracking-wide transition-colors">View All</button>
+</div>
+<div class="flex-1 overflow-y-auto p-0 custom-scrollbar">
+<ul class="flex flex-col">
+<!-- Item 1 -->
+<li class="flex gap-4 p-4 border-b border-surface-border/50 hover:bg-white/5 transition-colors">
+<div class="flex flex-col items-center gap-1 mt-1">
+<div class="size-2 rounded-full bg-primary"></div>
+<div class="w-px h-full bg-surface-border"></div>
+</div>
+<div class="flex flex-col gap-1 pb-2">
+<p class="text-sm text-gray-300">
+<span class="font-bold text-white">Team Alpha</span> started crushing at <span class="text-primary">Greenwood Estate</span>.
+                                        </p>
+<span class="text-xs text-[#5d7e72]">10:45 AM</span>
+</div>
+</li>
+<!-- Item 2 -->
+<li class="flex gap-4 p-4 border-b border-surface-border/50 hover:bg-white/5 transition-colors">
+<div class="flex flex-col items-center gap-1 mt-1">
+<div class="size-2 rounded-full bg-accent-amber"></div>
+<div class="w-px h-full bg-surface-border"></div>
+</div>
+<div class="flex flex-col gap-1 pb-2">
+<p class="text-sm text-gray-300">
+                                            Machinery breakdown reported at <span class="text-accent-amber">Nikaweratiya Site</span>.
+                                        </p>
+<span class="text-xs text-[#5d7e72]">09:30 AM</span>
+</div>
+</li>
+<!-- Item 3 -->
+<li class="flex gap-4 p-4 border-b border-surface-border/50 hover:bg-white/5 transition-colors">
+<div class="flex flex-col items-center gap-1 mt-1">
+<div class="size-2 rounded-full bg-gray-500"></div>
+<div class="w-px h-full bg-surface-border"></div>
+</div>
+<div class="flex flex-col gap-1 pb-2">
+<p class="text-sm text-gray-300">
+                                            Daily report submitted by <span class="font-bold text-white">Wariyapola Depot</span>.
+                                        </p>
+<span class="text-xs text-[#5d7e72]">08:15 AM</span>
+</div>
+</li>
+<!-- Item 4 -->
+<li class="flex gap-4 p-4 border-b border-surface-border/50 hover:bg-white/5 transition-colors">
+<div class="flex flex-col items-center gap-1 mt-1">
+<div class="size-2 rounded-full bg-primary"></div>
+<div class="w-px h-full bg-transparent"></div>
+</div>
+<div class="flex flex-col gap-1 pb-2">
+<p class="text-sm text-gray-300">
+<span class="font-bold text-white">Team Beta</span> arrived at Polgahawela Junction.
+                                        </p>
+<span class="text-xs text-[#5d7e72]">07:50 AM</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

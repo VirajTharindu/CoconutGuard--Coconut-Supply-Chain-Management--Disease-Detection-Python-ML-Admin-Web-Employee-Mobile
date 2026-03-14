@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Production Analytics - Kurunegala Co-op</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1e5c46",
+                        "primary-hover": "#2a7a5d",
+                        "accent": "#E6B87B",
+                        "background-light": "#f9fbf9",
+                        "background-dark": "#16221e",
+                        "card-dark": "#1c2b26",
+                        "card-hover": "#233630",
+                        "text-secondary": "#9dbeb2",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Work Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #16221e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b4039;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e5c46;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-body antialiased overflow-hidden h-screen flex">
+<!-- Side Navigation -->
+<aside class="w-20 lg:w-64 flex flex-col justify-between border-r border-[#2b4039] bg-[#141f1b] h-full shrink-0 transition-all duration-300">
+<div class="flex flex-col gap-6 p-4">
+<!-- User Profile -->
+<div class="flex items-center gap-3 pb-6 border-b border-[#2b4039]">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shrink-0 border-2 border-primary" data-alt="Portrait of the coop manager" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkPeJ3-slbE-4qBNDwUUsaWR69bNGUmH0KCglvVffBOCR0U7C_EcdUoE1gRwAgB9sncDsJPJ2PtBS4sFtTiT7OhumaS7fVUtjskMG0plTL3h_QR8tVFa2TfiDlF783YMEqOjofmLSYJljuuVdGSSJZzZVvZK-twaG7YOpnSNvxbW5HPrOoPgAMSIolVwgk7w7RkfZAMrSi_n6okNk5FHhWsPIM0AJLnMsYlbGZEeb3463vT14Az45c61QIpDR43jBd8bey5FtQtQ");'>
+</div>
+<div class="hidden lg:flex flex-col">
+<h1 class="text-white text-base font-display font-medium leading-none mb-1">Kurunegala Co-op</h1>
+<p class="text-text-secondary text-xs font-normal">Manager Dashboard</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#2b4039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">dashboard</span>
+<span class="hidden lg:block text-text-secondary group-hover:text-white text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/20 border border-primary/20 text-white" href="#">
+<span class="material-symbols-outlined text-primary fill-1">analytics</span>
+<span class="hidden lg:block text-white text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#2b4039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">factory</span>
+<span class="hidden lg:block text-text-secondary group-hover:text-white text-sm font-medium">Mills</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#2b4039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">local_shipping</span>
+<span class="hidden lg:block text-text-secondary group-hover:text-white text-sm font-medium">Logistics</span>
+</a>
+</nav>
+</div>
+<div class="p-4">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#2b4039] transition-colors group" href="#">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">settings</span>
+<span class="hidden lg:block text-text-secondary group-hover:text-white text-sm font-medium">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-y-auto relative">
+<!-- Top Header -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-6 lg:px-10 lg:pt-10 pb-4">
+<div>
+<h1 class="text-white text-3xl md:text-4xl font-display font-bold leading-tight tracking-tight">Production Analytics</h1>
+<p class="text-text-secondary text-sm mt-1">Kurunegala District • Harvest Season 2024</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 cursor-pointer rounded-lg h-10 px-4 bg-[#2b4039] hover:bg-[#364e46] text-white text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-lg">download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</header>
+<!-- Filters Section -->
+<section class="px-6 lg:px-10 py-2">
+<div class="flex flex-wrap items-end gap-4 p-4 bg-card-dark rounded-xl border border-[#2b4039]">
+<div class="flex items-center gap-2 text-white/50 text-sm font-medium uppercase tracking-wider mr-2">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                    Filters
+                </div>
+<label class="flex flex-col min-w-40 flex-1 max-w-[200px]">
+<span class="text-text-secondary text-xs font-medium pb-1.5">Date Range</span>
+<div class="relative">
+<select class="appearance-none w-full bg-[#141f1b] border border-[#3d5c51] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 pr-8">
+<option>Last 30 Days</option>
+<option>This Quarter</option>
+<option>YTD</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</label>
+<label class="flex flex-col min-w-40 flex-1 max-w-[200px]">
+<span class="text-text-secondary text-xs font-medium pb-1.5">Sub-region</span>
+<div class="relative">
+<select class="appearance-none w-full bg-[#141f1b] border border-[#3d5c51] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5 pr-8">
+<option>All Sub-regions</option>
+<option>Kuliyapitiya</option>
+<option>Pannala</option>
+<option>Bingiriya</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</label>
+</div>
+</section>
+<!-- KPI Grid -->
+<section class="px-6 lg:px-10 py-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- KPI 1 -->
+<div class="flex flex-col justify-between p-6 bg-card-dark rounded-xl border-l-4 border-primary shadow-lg shadow-black/20">
+<div class="flex justify-between items-start mb-2">
+<p class="text-text-secondary text-sm font-medium uppercase tracking-wider">Total Crushed</p>
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded">agriculture</span>
+</div>
+<div>
+<p class="text-white text-3xl font-display font-bold">1,240 <span class="text-lg font-normal text-white/60">MT</span></p>
+<div class="flex items-center gap-1 mt-1 text-[#0bda49] text-sm">
+<span class="material-symbols-outlined text-base">trending_up</span>
+<span>+8.2% vs last month</span>
+</div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="flex flex-col justify-between p-6 bg-card-dark rounded-xl border-l-4 border-accent shadow-lg shadow-black/20">
+<div class="flex justify-between items-start mb-2">
+<p class="text-text-secondary text-sm font-medium uppercase tracking-wider">Avg. Oil Recovery</p>
+<span class="material-symbols-outlined text-accent bg-accent/10 p-1 rounded">opacity</span>
+</div>
+<div>
+<p class="text-white text-3xl font-display font-bold">62<span class="text-lg font-normal text-white/60">%</span></p>
+<div class="flex items-center gap-1 mt-1 text-accent text-sm">
+<span class="material-symbols-outlined text-base">warning</span>
+<span>-1.5% moisture impact</span>
+</div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="flex flex-col justify-between p-6 bg-card-dark rounded-xl border-l-4 border-primary shadow-lg shadow-black/20">
+<div class="flex justify-between items-start mb-2">
+<p class="text-text-secondary text-sm font-medium uppercase tracking-wider">Active Mills</p>
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded">factory</span>
+</div>
+<div>
+<p class="text-white text-3xl font-display font-bold">12<span class="text-lg font-normal text-white/60">/15</span></p>
+<div class="flex items-center gap-1 mt-1 text-text-secondary text-sm">
+<span class="material-symbols-outlined text-base">schedule</span>
+<span>3 undergoing maintenance</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Dashboard Content -->
+<section class="px-6 lg:px-10 pb-10 flex-1">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Chart: Harvest Yield Trends -->
+<div class="lg:col-span-2 bg-card-dark rounded-xl p-6 shadow-lg shadow-black/20 border border-[#2b4039]">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-white text-xl font-display font-semibold">Harvest Yield Trends</h2>
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-primary"></span>
+<span class="text-xs text-text-secondary">Volume (MT)</span>
+</div>
+</div>
+<!-- Chart Graphic Wrapper -->
+<div class="relative h-[280px] w-full flex flex-col justify-end">
+<!-- Y-Axis Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/20"></div> <!-- Base line -->
+</div>
+<!-- SVG Chart -->
+<svg class="relative z-10 w-full h-[240px] overflow-visible" preserveaspectratio="none" viewbox="0 0 800 240">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#1e5c46" stop-opacity="0.5"></stop>
+<stop offset="100%" stop-color="#1e5c46" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Fill -->
+<path d="M0,180 C100,160 150,200 250,140 C350,80 400,100 500,60 C600,20 650,50 800,30 V240 H0 Z" fill="url(#chartGradient)"></path>
+<!-- Stroke -->
+<path d="M0,180 C100,160 150,200 250,140 C350,80 400,100 500,60 C600,20 650,50 800,30" fill="none" stroke="#1e5c46" stroke-linecap="round" stroke-width="3"></path>
+<!-- Data Points (Interactive Hover Targets) -->
+<circle class="hover:r-6 transition-all cursor-pointer" cx="250" cy="140" fill="#141f1b" r="4" stroke="#fff" stroke-width="2">
+<title>Week 2: 850 MT</title>
+</circle>
+<circle class="hover:r-6 transition-all cursor-pointer" cx="500" cy="60" fill="#141f1b" r="4" stroke="#fff" stroke-width="2">
+<title>Week 4: 1120 MT</title>
+</circle>
+</svg>
+<!-- X-Axis Labels -->
+<div class="flex justify-between text-xs text-text-secondary font-medium mt-4">
+<span>Wk 1</span>
+<span>Wk 2</span>
+<span>Wk 3</span>
+<span>Wk 4</span>
+<span>Wk 5</span>
+<span>Wk 6</span>
+<span>Today</span>
+</div>
+</div>
+</div>
+<!-- Widget: Weather Forecast -->
+<div class="lg:col-span-1 bg-card-dark rounded-xl p-6 shadow-lg shadow-black/20 border border-[#2b4039] flex flex-col gap-4">
+<div class="flex justify-between items-center border-b border-white/5 pb-4">
+<h2 class="text-white text-xl font-display font-semibold">Forecast</h2>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-text-secondary uppercase">Kurunegala</span>
+</div>
+<!-- Alert Box -->
+<div class="bg-accent/10 border border-accent/20 rounded-lg p-3 flex gap-3 items-start">
+<span class="material-symbols-outlined text-accent shrink-0">thunderstorm</span>
+<div>
+<p class="text-accent text-sm font-bold leading-tight">High Moisture Risk</p>
+<p class="text-accent/80 text-xs mt-1">Heavy rains expected. Halt outdoor drying in Kuliyapitiya zone.</p>
+</div>
+</div>
+<!-- Forecast List -->
+<div class="flex flex-col gap-3 mt-1 flex-1">
+<div class="flex items-center justify-between text-white text-sm">
+<span class="w-12 font-medium">Today</span>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-xl">rainy</span>
+<span class="text-xs">70%</span>
+</div>
+<span class="w-12 text-right font-display">28°</span>
+</div>
+<div class="flex items-center justify-between text-white text-sm">
+<span class="w-12 font-medium">Tue</span>
+<div class="flex items-center gap-2 text-accent">
+<span class="material-symbols-outlined text-xl">thunderstorm</span>
+<span class="text-xs font-bold">90%</span>
+</div>
+<span class="w-12 text-right font-display">26°</span>
+</div>
+<div class="flex items-center justify-between text-white text-sm">
+<span class="w-12 font-medium">Wed</span>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-xl">cloudy</span>
+<span class="text-xs">20%</span>
+</div>
+<span class="w-12 text-right font-display">29°</span>
+</div>
+<div class="flex items-center justify-between text-white text-sm">
+<span class="w-12 font-medium">Thu</span>
+<div class="flex items-center gap-2 text-yellow-500">
+<span class="material-symbols-outlined text-xl">sunny</span>
+<span class="text-xs">0%</span>
+</div>
+<span class="w-12 text-right font-display">32°</span>
+</div>
+<div class="flex items-center justify-between text-white text-sm opacity-60">
+<span class="w-12 font-medium">Fri</span>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-xl">partly_cloudy_day</span>
+<span class="text-xs">10%</span>
+</div>
+<span class="w-12 text-right font-display">31°</span>
+</div>
+</div>
+</div>
+<!-- Chart: Mill Efficiency Breakdown -->
+<div class="lg:col-span-3 bg-card-dark rounded-xl p-6 shadow-lg shadow-black/20 border border-[#2b4039]">
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+<h2 class="text-white text-xl font-display font-semibold">Mill Efficiency Breakdown</h2>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-primary"></span>
+<span class="text-xs text-text-secondary">Optimal (&gt;90%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-accent"></span>
+<span class="text-xs text-text-secondary">Attention Needed (&lt;80%)</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+<!-- Left Column Mills -->
+<div class="flex flex-col gap-5">
+<!-- Mill Item -->
+<div class="group">
+<div class="flex justify-between mb-1.5">
+<span class="text-white text-sm font-medium">Mill A - Pannala</span>
+<span class="text-white text-sm font-display">94%</span>
+</div>
+<div class="w-full bg-[#141f1b] rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 94%"></div>
+</div>
+</div>
+<!-- Mill Item -->
+<div class="group">
+<div class="flex justify-between mb-1.5">
+<span class="text-white text-sm font-medium">Mill B - Kuliyapitiya East</span>
+<span class="text-white text-sm font-display">88%</span>
+</div>
+<div class="w-full bg-[#141f1b] rounded-full h-2.5">
+<div class="bg-primary/70 h-2.5 rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<!-- Mill Item Warning -->
+<div class="group">
+<div class="flex justify-between mb-1.5">
+<span class="text-white text-sm font-medium flex items-center gap-2">
+                                        Mill C - Bingiriya
+                                        <span class="material-symbols-outlined text-accent text-sm" title="Low Efficiency Warning">warning</span>
+</span>
+<span class="text-accent text-sm font-display">72%</span>
+</div>
+<div class="w-full bg-[#141f1b] rounded-full h-2.5">
+<div class="bg-accent h-2.5 rounded-full" style="width: 72%"></div>
+</div>
+</div>
+</div>
+<!-- Right Column Mills -->
+<div class="flex flex-col gap-5">
+<!-- Mill Item -->
+<div class="group">
+<div class="flex justify-between mb-1.5">
+<span class="text-white text-sm font-medium">Mill D - Narammala</span>
+<span class="text-white text-sm font-display">96%</span>
+</div>
+<div class="w-full bg-[#141f1b] rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 96%"></div>
+</div>
+</div>
+<!-- Mill Item -->
+<div class="group">
+<div class="flex justify-between mb-1.5">
+<span class="text-white text-sm font-medium">Mill E - Wariyapola</span>
+<span class="text-white text-sm font-display">91%</span>
+</div>
+<div class="w-full bg-[#141f1b] rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 91%"></div>
+</div>
+</div>
+<!-- Mill Item -->
+<div class="group">
+<div class="flex justify-between mb-1.5">
+<span class="text-white text-sm font-medium">Mill F - Nikaweratiya</span>
+<span class="text-white text-sm font-display">85%</span>
+</div>
+<div class="w-full bg-[#141f1b] rounded-full h-2.5">
+<div class="bg-primary/70 h-2.5 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

@@ -1,0 +1,168 @@
+﻿> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin UP-TO-DATE
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:pluginDescriptors UP-TO-DATE
+> Task :gradle:processResources UP-TO-DATE
+> Task :gradle:classes UP-TO-DATE
+> Task :gradle:jar UP-TO-DATE
+> Task :app:DebugMinSdkCheck
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+
+> Task :app:compileFlutterBuildDebug
+.\gradlew.bat : 
+lib/services/firestore_service.dart:17:9: 
+Error: The method 'debugPrint' isn't defined 
+for the type 'FirestoreService'.
+At line:1 char:1
++ .\gradlew.bat assembleDebug > 
+build_error.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo          : NotSpecified: (l 
+   ib/services/fi...estoreService'.:String) [  
+  ], RemoteException
+    + FullyQualifiedErrorId : NativeCommandErr 
+   or
+ 
+ - 'FirestoreService' is from 'package:coconut_
+supply_app/services/firestore_service.dart' 
+('lib/services/firestore_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+        debugPrint("≡ƒº¬ Demo Mode: Saving 
+detection locally (Mock)");
+        ^^^^^^^^^^
+lib/services/firestore_service.dart:22:24: 
+Error: Property 'uid' cannot be accessed on 
+'User?' because it is potentially null.
+ - 'User' is from 
+'package:firebase_auth/firebase_auth.dart' ('/C
+:/Users/User/AppData/Local/Pub/Cache/hosted/pub
+.dev/firebase_auth-5.7.0/lib/firebase_auth.dart
+').
+Try accessing using ?. instead.
+        'userId': user.uid,
+                       ^^^
+lib/services/firestore_service.dart:34:7: 
+Error: The method 'debugPrint' isn't defined 
+for the type 'FirestoreService'.
+ - 'FirestoreService' is from 'package:coconut_
+supply_app/services/firestore_service.dart' 
+('lib/services/firestore_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+      debugPrint("Γ£à Detection saved to 
+Firestore");
+      ^^^^^^^^^^
+lib/services/firestore_service.dart:36:7: 
+Error: The method 'debugPrint' isn't defined 
+for the type 'FirestoreService'.
+ - 'FirestoreService' is from 'package:coconut_
+supply_app/services/firestore_service.dart' 
+('lib/services/firestore_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+      debugPrint("ΓÜá∩╕? Firestore failed, but 
+app will continue: $e");
+      ^^^^^^^^^^
+lib/services/firestore_service.dart:44:7: 
+Error: The method 'debugPrint' isn't defined 
+for the type 'FirestoreService'.
+ - 'FirestoreService' is from 'package:coconut_
+supply_app/services/firestore_service.dart' 
+('lib/services/firestore_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+      debugPrint("≡ƒº¬ Demo Mode: Returning 
+empty stream for detections");
+      ^^^^^^^^^^
+lib/services/ml_service.dart:29:7: Error: The 
+method 'debugPrint' isn't defined for the type 
+'MLService'.
+ - 'MLService' is from 'package:coconut_supply_
+app/services/ml_service.dart' 
+('lib/services/ml_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+      debugPrint("Γ£à ML Model loaded 
+successfully");
+      ^^^^^^^^^^
+lib/services/ml_service.dart:31:7: Error: The 
+method 'debugPrint' isn't defined for the type 
+'MLService'.
+ - 'MLService' is from 'package:coconut_supply_
+app/services/ml_service.dart' 
+('lib/services/ml_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+      debugPrint("ΓÜá∩╕? ML Model not found or 
+failed to load: $e");
+      ^^^^^^^^^^
+lib/services/ml_service.dart:32:7: Error: The 
+method 'debugPrint' isn't defined for the type 
+'MLService'.
+ - 'MLService' is from 'package:coconut_supply_
+app/services/ml_service.dart' 
+('lib/services/ml_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+      debugPrint("≡ƒæë Continuing with MOCK 
+INFERENCE for development.");
+      ^^^^^^^^^^
+lib/services/ml_service.dart:99:5: Error: The 
+method 'debugPrint' isn't defined for the type 
+'MLService'.
+ - 'MLService' is from 'package:coconut_supply_
+app/services/ml_service.dart' 
+('lib/services/ml_service.dart').
+Try correcting the name to the name of an 
+existing method, or defining a method named 
+'debugPrint'.
+    debugPrint("≡ƒºá Prediction: $label 
+($confidence) | Expert Needed: 
+$requiresExpert");
+    ^^^^^^^^^^
+Target kernel_snapshot_program failed: 
+Exception
+
+
+> Task :app:compileFlutterBuildDebug FAILED
+
+[Incubating] Problems report is available at: file:///D:/Projects/Complex%20Systems/CoconutGuard/CoconutGuard/mobile/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task 
+':app:compileFlutterBuildDebug'.
+> Process 'command 'C:\src\flutter_windows_3.7.
+7-stable\flutter\bin\flutter.bat'' finished 
+with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the 
+stack trace.
+> Run with --info or --debug option to get 
+more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+6 actionable tasks: 2 executed, 4 up-to-date
+
+BUILD FAILED in 16s

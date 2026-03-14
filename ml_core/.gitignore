@@ -1,0 +1,30 @@
+# Datasets
+datasets/raw/*
+datasets/processed/*
+
+# Trained models (keep only TFLite)
+models/*.h5
+models/*.pb
+models/saved_model/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

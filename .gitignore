@@ -1,0 +1,60 @@
+# Common
+.DS_Store
+*.log
+*.tmp
+*.bak
+.idea/
+.vscode/
+
+# Web (Next.js)
+admin_web/node_modules/
+admin_web/.next/
+admin_web/out/
+admin_web/build/
+admin_web/.env.local
+admin_web/.env.development.local
+admin_web/.env.test.local
+admin_web/.env.production.local
+admin_web/*.tsbuildinfo
+admin_web/next-env.d.ts
+
+# Mobile (Flutter)
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.pub-cache/
+mobile/.pub/
+mobile/build/
+mobile/ios/Flutter/.last_build_id
+mobile/ios/Flutter/Generated.xcconfig
+mobile/ios/Flutter/flutter_export_environment.sh
+mobile/**/*.iml
+mobile/**/*.hive
+mobile/**/*.g.dart
+mobile/.idea/
+mobile/.vscode/
+
+# ML Core (Python/Jupyter)
+ml_core/venv/
+ml_core/.venv/
+ml_core/__pycache__/
+ml_core/*.pyc
+ml_core/.ipynb_checkpoints/
+ml_core/datasets/
+ml_core/models/*.h5
+ml_core/models/*.tflite
+ml_core/models/*.pb
+ml_core/models/*.json
+!ml_core/models/placeholder.txt
+
+# Local Environment / Credentials (Global)
+.env
+.env.local
+.env.*.local
+!.env.example
+firebase_key.json
+service-account.json
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist

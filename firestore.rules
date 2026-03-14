@@ -1,0 +1,34 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isSignedIn() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Detections: Farmers can create/read their own, Admins can read/delete all
+    match /detections/{detectionId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn(); // Simplified for now
+      allow update, delete: if isAdmin();
+    }
+
+    // Users: Users can read/write their own profiles, Admins can manage all
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == userId;
+    }
+    
+    // Supply Chain Nodes: Read for all signed-in, write for Admins
+    match /supply_chain_nodes/{nodeId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
