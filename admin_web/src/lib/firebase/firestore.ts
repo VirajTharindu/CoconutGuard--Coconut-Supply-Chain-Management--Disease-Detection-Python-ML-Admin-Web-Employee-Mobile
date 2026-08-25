@@ -14,6 +14,7 @@ import {
     Timestamp,
     DocumentSnapshot,
     QuerySnapshot,
+    startAfter,
 } from 'firebase/firestore';
 import { db } from './config';
 
@@ -124,6 +125,43 @@ export class FirestoreService {
             callback(data);
         });
     }
+
+    /**
+     * Get paginated documents from a collection
+     */
+    static async getPaginatedDocuments<T>(
+        collectionName: string,
+        pageSize: number = 20,
+        lastVisibleDoc?: DocumentSnapshot | null,
+        additionalConstraints: QueryConstraint[] = []
+    ): Promise<{ data: T[], lastDoc: DocumentSnapshot | null }> {
+        try {
+            const collectionRef = collection(db, collectionName);
+            const constraints = [...additionalConstraints];
+            
+            if (lastVisibleDoc) {
+                constraints.push(startAfter(lastVisibleDoc));
+            }
+            
+            constraints.push(limit(pageSize));
+            
+            const q = query(collectionRef, ...constraints);
+            const snapshot = await getDocs(q);
+
+            const data = snapshot.docs.map((doc: DocumentSnapshot) => ({
+                id: doc.id,
+                ...doc.data(),
+            })) as T[];
+
+            return {
+                data,
+                lastDoc: snapshot.docs[snapshot.docs.length - 1] || null
+            };
+        } catch (error) {
+            console.error('Error getting paginated documents:', error);
+            throw error;
+        }
+    }
 }
 
 // Disease Detection specific operations
@@ -165,8 +203,8 @@ export const DetectionService = {
 
 // User management operations
 export const UserService = {
-    async getAllUsers() {
-        return FirestoreService.getDocuments(COLLECTIONS.USERS);
+    async getAllUsers(pageSize: number = 20, lastDoc?: DocumentSnapshot | null) {
+        return FirestoreService.getPaginatedDocuments(COLLECTIONS.USERS, pageSize, lastDoc);
     },
 
     async getUsersByRole(role: 'farmer' | 'expert' | 'admin') {
@@ -179,8 +217,8 @@ export const UserService = {
 
 // Supply chain operations
 export const SupplyChainService = {
-    async getAllNodes() {
-        return FirestoreService.getDocuments(COLLECTIONS.SUPPLY_CHAIN_NODES);
+    async getAllNodes(pageSize: number = 20, lastDoc?: DocumentSnapshot | null) {
+        return FirestoreService.getPaginatedDocuments(COLLECTIONS.SUPPLY_CHAIN_NODES, pageSize, lastDoc);
     },
 
     async updatePrices(
