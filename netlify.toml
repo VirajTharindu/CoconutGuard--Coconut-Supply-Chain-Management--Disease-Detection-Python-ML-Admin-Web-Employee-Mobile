@@ -1,26 +1,20 @@
-# netlify.toml — Netlify build & deploy configuration
-
 [build]
   # Base directory where admin_web lives (relative to repo root)
   base    = "admin_web"
   # Build command
   command = "npm run build"
-  # Next.js output directory (Netlify's Next.js runtime reads from .next)
-  publish = ".next"
+  # For modern Next.js deployments on Netlify, do not specify the 'publish' directory.
+  # Netlify's Next.js runtime automatically detects and handles it.
 
 [build.environment]
   # Node version to match local development
   NODE_VERSION = "20"
 
-# Use Netlify's official Next.js runtime plugin for full SSR support
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-# Redirect all routes to Next.js (handled by the plugin, but kept as fallback)
-[[redirects]]
-  from   = "/*"
-  to     = "/.netlify/functions/___netlify-handler"
-  status = 200
+# Note: The @netlify/plugin-nextjs is no longer needed in netlify.toml for recent versions
+# of Next.js, as Netlify provides native support.
+# We also removed the manual wildcard redirect to '___netlify-handler' because
+# Netlify's V5 Next.js runtime uses different handler architecture, and manual
+# redirects will break routing and cause 404 errors.
 
 # Security headers
 [[headers]]
