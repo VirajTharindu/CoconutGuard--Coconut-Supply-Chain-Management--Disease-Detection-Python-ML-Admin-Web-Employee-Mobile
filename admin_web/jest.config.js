@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import nextJest from 'next/jest.js';
 
 const createJestConfig = nextJest({

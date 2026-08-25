@@ -23,11 +23,12 @@ jest.mock('@/lib/firebase/config', () => ({
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginPage from '@/app/login/page';
+import { useRouter } from 'next/navigation';
 
 describe('LoginPage integration tests', () => {
   test('successful login redirects to home', async () => {
     render(<LoginPage />);
-    const router = require('next/navigation').useRouter();
+    const router = useRouter();
     const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement;
     const loginButton = screen.getByRole('button', { name: /login/i });
