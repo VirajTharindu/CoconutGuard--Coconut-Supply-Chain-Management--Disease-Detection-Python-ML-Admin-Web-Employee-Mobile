@@ -17,7 +17,7 @@ CoconutGuard is a **comprehensive agricultural ecosystem** designed to **protect
 
 The system focuses on **bridging the gap between field-level diagnosis and centralized expertise** and aims to **provide farmers with real-time, actionable insights while streamlining the harvest supply chain**.
 
----
+-----
 
 # ✨ Key Features
 
