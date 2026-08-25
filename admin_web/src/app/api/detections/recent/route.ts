@@ -22,7 +22,7 @@ export async function GET() {
         });
     } catch (error) {
         console.warn('Firebase Recent Detections Error (Falling back to Demo Data):', error);
-        
+
         // Mock data for demo/development
         const mockDetections = [
             { id: 'mock-1', location: 'Trincomalee', label: 'bud_rot', confidence: 0.95, status: 'verified', timestamp: new Date().toISOString() },

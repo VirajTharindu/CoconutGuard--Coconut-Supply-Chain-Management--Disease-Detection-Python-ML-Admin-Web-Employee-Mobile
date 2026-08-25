@@ -1,97 +1,53 @@
-'use client';
+import { unstable_cache } from 'next/cache';
+import AnalyticsClient from './AnalyticsClient';
 
+// Simulate a database call that we want to cache via ISR
+const getAnalyticsData = unstable_cache(
+    async () => {
+        // In a real application, this would be a heavy Firestore or SQL query
+        // We simulate a 500ms database delay
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        
+        return {
+            detectionAccuracy: [
+                { month: 'Jan', accuracy: 82 },
+                { month: 'Feb', accuracy: 85 },
+                { month: 'Mar', accuracy: 87 },
+                { month: 'Apr', accuracy: 86 },
+                { month: 'May', accuracy: 91 },
+                { month: 'Jun', accuracy: 93 },
+            ],
+            priceFluctuations: [
+                { month: 'Jan', premium: 120, standard: 90, low: 50 },
+                { month: 'Feb', premium: 125, standard: 95, low: 55 },
+                { month: 'Mar', premium: 110, standard: 85, low: 45 },
+                { month: 'Apr', premium: 130, standard: 100, low: 60 },
+                { month: 'May', premium: 140, standard: 110, low: 65 },
+                { month: 'Jun', premium: 135, standard: 105, low: 60 },
+            ],
+            userActivity: [
+                { day: 'Mon', farmers: 45, experts: 12 },
+                { day: 'Tue', farmers: 52, experts: 15 },
+                { day: 'Wed', farmers: 49, experts: 14 },
+                { day: 'Thu', farmers: 63, experts: 18 },
+                { day: 'Fri', farmers: 58, experts: 16 },
+                { day: 'Sat', farmers: 30, experts: 5 },
+                { day: 'Sun', farmers: 35, experts: 8 },
+            ]
+        };
+    },
+    ['global-analytics-data'], // Cache key
+    { revalidate: 60 } // ISR: Revalidate every 60 seconds
+);
 
+export default async function AnalyticsPage() {
+    // This runs on the server. The result is cached by Next.js.
+    const data = await getAnalyticsData();
 
-export default function AnalyticsPage() {
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-3xl font-bold text-gray-900 mb-6">
-                    📈 Analytics Dashboard
-                </h1>
-
-                {/* Key Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <MetricCard
-                        title="Detection Accuracy"
-                        value="0%"
-                        trend="+0%"
-                        positive={true}
-                    />
-                    <MetricCard
-                        title="Avg Response Time"
-                        value="0h"
-                        trend="-0%"
-                        positive={true}
-                    />
-                    <MetricCard
-                        title="Disease Recovery Rate"
-                        value="0%"
-                        trend="+0%"
-                        positive={true}
-                    />
-                    <MetricCard
-                        title="Supply Chain Efficiency"
-                        value="0%"
-                        trend="+0%"
-                        positive={true}
-                    />
-                </div>
-
-                {/* Charts */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <ChartCard title="Disease Detection Trends (30 Days)" />
-                    <ChartCard title="Geographic Distribution" />
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <ChartCard title="ML Model Performance" />
-                    <ChartCard title="Price Fluctuations" />
-                    <ChartCard title="User Activity" />
-                </div>
-            </div>
+        <div className="min-h-screen bg-background">
+            <AnalyticsClient data={data} />
         </div>
     );
 }
 
-function MetricCard({
-    title,
-    value,
-    trend,
-    positive,
-}: {
-    title: string;
-    value: string;
-    trend: string;
-    positive: boolean;
-}) {
-    return (
-        <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">{title}</h3>
-            <div className="flex items-end justify-between">
-                <p className="text-3xl font-bold text-gray-900">{value}</p>
-                <span
-                    className={`text-sm font-semibold ${positive ? 'text-green-600' : 'text-red-600'
-                        }`}
-                >
-                    {trend}
-                </span>
-            </div>
-        </div>
-    );
-}
-
-function ChartCard({ title }: { title: string }) {
-    return (
-        <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4">{title}</h3>
-            <div className="bg-gray-100 rounded-lg h-64 flex items-center justify-center">
-                <p className="text-gray-500 text-center">
-                    Chart visualization coming soon
-                    <br />
-                    <span className="text-sm">Integration with Chart.js or Recharts</span>
-                </p>
-            </div>
-        </div>
-    );
-}
