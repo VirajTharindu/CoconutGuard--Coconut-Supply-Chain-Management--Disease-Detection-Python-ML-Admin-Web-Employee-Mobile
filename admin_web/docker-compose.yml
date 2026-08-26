@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  admin_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: coconutguard-admin-web
+    ports:
+      - "3001:3000"
+    # This automatically loads environment variables from your .env.local file
+    env_file:
+      - .env.local
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
