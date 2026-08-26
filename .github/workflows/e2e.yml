@@ -1,5 +1,5 @@
-# E2E — Playwright tests against Netlify Deploy Preview
-# Runs on PRs targeting main, after the preview deploy is ready.
+# E2E — Playwright tests against local Next.js server
+# Runs on PRs targeting main.
 
 name: E2E Tests
 
@@ -18,12 +18,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
+    # If your Firebase secrets are stored in a GitHub Environment,
+    # make sure the environment name matches exactly.
+    environment: production
+
     steps:
       # ── Checkout ─────────────────────────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── Node setup with cache ─────────────────────────────────────────────────
+      # ── Node setup with cache ────────────────────────────────────────────────
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -31,15 +35,15 @@ jobs:
           cache: 'npm'
           cache-dependency-path: admin_web/package-lock.json
 
-      # ── Install dependencies ──────────────────────────────────────────────────
+      # ── Install dependencies ────────────────────────────────────────────────
       - name: Install dependencies
         run: npm ci
 
-      # ── Install Playwright browsers ───────────────────────────────────────────
+      # ── Install Playwright browsers ─────────────────────────────────────────
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      # ── Build app for E2E ─────────────────────────────────────────────────────
+      # ── Build app for E2E ───────────────────────────────────────────────────
       - name: Build
         run: npm run build
         env:
@@ -55,10 +59,17 @@ jobs:
         run: npm run test:e2e
         env:
           CI: true
-          # Playwright config already has baseURL: http://localhost:3000
-          # The webServer block in playwright.config.ts handles server startup
 
-      # ── Upload Playwright report on failure ───────────────────────────────────
+          # Firebase configuration must also be available
+          # when Playwright starts the Next.js webServer.
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}
+
+      # ── Upload Playwright report on failure ──────────────────────────────────
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
